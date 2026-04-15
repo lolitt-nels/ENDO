@@ -1,0 +1,5 @@
+DROP INDEX idx_bitmap_annee;
+result:
+Index IDX_BITMAP_ANNEE dropped.
+
+Elapsed: 00:00:00.231

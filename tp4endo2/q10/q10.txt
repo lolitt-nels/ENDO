@@ -1,0 +1,10 @@
+CREATE BITMAP INDEX idx_bjoin_sexe
+ON FSejour(p.SexePatient)
+FROM FSejour f, DPatient p
+WHERE f.IDPatient = p.IDPatient;
+
+result :
+
+INDEX IDX_BJOIN_SEXE created.
+
+Elapsed: 00:00:01.560

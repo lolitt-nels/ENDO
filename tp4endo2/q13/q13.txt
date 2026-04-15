@@ -1,0 +1,5 @@
+INSERT /*+ APPEND */ INTO FSejour2
+SELECT IDHopital, IDPatient, IDSpecialite, CodeTemps, DureeSejour, NBActes
+FROM   FSejour;
+
+COMMIT;

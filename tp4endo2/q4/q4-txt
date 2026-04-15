@@ -1,0 +1,11 @@
+DROP INDEX idx_btree_annee;
+
+CREATE BITMAP INDEX idx_bitmap_annee ON DTemps(Annee);
+result:
+Index IDX_BTREE_ANNEE dropped.
+
+Elapsed: 00:00:00.271
+
+INDEX IDX_BITMAP_ANNEE created.
+
+Elapsed: 00:00:00.039
