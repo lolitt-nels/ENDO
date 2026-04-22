@@ -1,0 +1,28 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT Annee, NomWilaya, NbActes
+FROM (
+    SELECT t.Annee,
+           h.NomWilaya,
+           SUM(f.NBActes)                                                        AS NbActes,
+           RANK() OVER (PARTITION BY t.Annee ORDER BY SUM(f.NBActes) DESC)       AS Rang
+    FROM   FSejour  f
+    JOIN   DHopital h ON f.IDHopital = h.IDHopital
+    JOIN   DTemps   t ON f.CodeTemps = t.CodeTemps
+    GROUP BY t.Annee, h.NomWilaya
+)
+WHERE Rang = 1
+ORDER BY Annee;
+
+
+Result :
+ANNE NOMWILAYA                                                                                               NBACTES
+---- ---------------------------------------------------------------------------------------------------- ----------
+2022 Wilaya_32                                                                                                 16490
+2023 Wilaya_58                                                                                                 16722
+2024 Wilaya_58                                                                                                 16762
+2025 Wilaya_58                                                                                                 16473
+
+Elapsed: 00:00:00.749

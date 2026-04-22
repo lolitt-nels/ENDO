@@ -1,0 +1,167 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT DECODE(GROUPING(h.NomWilaya),    1, 'TOUTES WILAYAS',    h.NomWilaya)    AS Wilaya,
+       DECODE(GROUPING(s.NomSpecialite),1, 'TOUTES SPECIALITES', s.NomSpecialite) AS Specialite,
+       DECODE(GROUPING(t.Annee),        1, 'TOUTES ANNEES',      t.Annee)        AS Annee,
+       SUM(f.NBActes)                                                             AS NbActes,
+       GROUPING_ID(h.NomWilaya, s.NomSpecialite, t.Annee)                        AS GID
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY ROLLUP(h.NomWilaya, s.NomSpecialite, t.Annee)
+ORDER BY h.NomWilaya, s.NomSpecialite, t.Annee;
+
+result:
+Wilaya_66                                                                                            Specialite_13                                                                                        2024                2913          0
+Wilaya_66                                                                                            Specialite_13                                                                                        2025                2915          0
+Wilaya_66                                                                                            Specialite_13                                                                                        TOUTES ANNEES      11677          1
+Wilaya_66                                                                                            TOUTES SPECIALITES                                                                                   TOUTES ANNEES      11677          3
+Wilaya_67                                                                                            Specialite_14                                                                                        2022                2765          0
+Wilaya_67                                                                                            Specialite_14                                                                                        2023                2727          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_67                                                                                            Specialite_14                                                                                        2024                2657          0
+Wilaya_67                                                                                            Specialite_14                                                                                        2025                2809          0
+Wilaya_67                                                                                            Specialite_14                                                                                        TOUTES ANNEES      10958          1
+Wilaya_67                                                                                            Specialite_20                                                                                        2022                3535          0
+Wilaya_67                                                                                            Specialite_20                                                                                        2023                3450          0
+Wilaya_67                                                                                            Specialite_20                                                                                        2024                3468          0
+Wilaya_67                                                                                            Specialite_20                                                                                        2025                3543          0
+Wilaya_67                                                                                            Specialite_20                                                                                        TOUTES ANNEES      13996          1
+Wilaya_67                                                                                            Specialite_26                                                                                        2022                2040          0
+Wilaya_67                                                                                            Specialite_26                                                                                        2023                2196          0
+Wilaya_67                                                                                            Specialite_26                                                                                        2024                2067          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_67                                                                                            Specialite_26                                                                                        2025                1910          0
+Wilaya_67                                                                                            Specialite_26                                                                                        TOUTES ANNEES       8213          1
+Wilaya_67                                                                                            Specialite_30                                                                                        2022                2305          0
+Wilaya_67                                                                                            Specialite_30                                                                                        2023                2181          0
+Wilaya_67                                                                                            Specialite_30                                                                                        2024                2385          0
+Wilaya_67                                                                                            Specialite_30                                                                                        2025                2215          0
+Wilaya_67                                                                                            Specialite_30                                                                                        TOUTES ANNEES       9086          1
+Wilaya_67                                                                                            TOUTES SPECIALITES                                                                                   TOUTES ANNEES      42253          3
+Wilaya_68                                                                                            Specialite_19                                                                                        2022                1808          0
+Wilaya_68                                                                                            Specialite_19                                                                                        2023                1683          0
+Wilaya_68                                                                                            Specialite_19                                                                                        2024                1674          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_68                                                                                            Specialite_19                                                                                        2025                1575          0
+Wilaya_68                                                                                            Specialite_19                                                                                        TOUTES ANNEES       6740          1
+Wilaya_68                                                                                            Specialite_2                                                                                         2022                2358          0
+Wilaya_68                                                                                            Specialite_2                                                                                         2023                2287          0
+Wilaya_68                                                                                            Specialite_2                                                                                         2024                2536          0
+Wilaya_68                                                                                            Specialite_2                                                                                         2025                2363          0
+Wilaya_68                                                                                            Specialite_2                                                                                         TOUTES ANNEES       9544          1
+Wilaya_68                                                                                            TOUTES SPECIALITES                                                                                   TOUTES ANNEES      16284          3
+Wilaya_7                                                                                             Specialite_2                                                                                         2022                3513          0
+Wilaya_7                                                                                             Specialite_2                                                                                         2023                3496          0
+Wilaya_7                                                                                             Specialite_2                                                                                         2024                3554          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_7                                                                                             Specialite_2                                                                                         2025                3587          0
+Wilaya_7                                                                                             Specialite_2                                                                                         TOUTES ANNEES      14150          1
+Wilaya_7                                                                                             Specialite_27                                                                                        2022                1652          0
+Wilaya_7                                                                                             Specialite_27                                                                                        2023                1701          0
+Wilaya_7                                                                                             Specialite_27                                                                                        2024                1690          0
+Wilaya_7                                                                                             Specialite_27                                                                                        2025                1685          0
+Wilaya_7                                                                                             Specialite_27                                                                                        TOUTES ANNEES       6728          1
+Wilaya_7                                                                                             Specialite_3                                                                                         2022                2600          0
+Wilaya_7                                                                                             Specialite_3                                                                                         2023                2501          0
+Wilaya_7                                                                                             Specialite_3                                                                                         2024                2710          0
+Wilaya_7                                                                                             Specialite_3                                                                                         2025                2517          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_7                                                                                             Specialite_3                                                                                         TOUTES ANNEES      10328          1
+Wilaya_7                                                                                             Specialite_32                                                                                        2022                3691          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2023                3658          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2024                3505          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2025                3404          0
+Wilaya_7                                                                                             Specialite_32                                                                                        TOUTES ANNEES      14258          1
+Wilaya_7                                                                                             TOUTES SPECIALITES                                                                                   TOUTES ANNEES      45464          3
+Wilaya_8                                                                                             Specialite_16                                                                                        2022                2819          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2023                2755          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2024                2675          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2025                2835          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_8                                                                                             Specialite_16                                                                                        TOUTES ANNEES      11084          1
+Wilaya_8                                                                                             Specialite_33                                                                                        2022                2703          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2023                2559          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2024                2528          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2025                2496          0
+Wilaya_8                                                                                             Specialite_33                                                                                        TOUTES ANNEES      10286          1
+Wilaya_8                                                                                             TOUTES SPECIALITES                                                                                   TOUTES ANNEES      21370          3
+Wilaya_9                                                                                             Specialite_11                                                                                        2022                2998          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2023                2928          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2024                3075          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2025                2983          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_9                                                                                             Specialite_11                                                                                        TOUTES ANNEES      11984          1
+Wilaya_9                                                                                             Specialite_13                                                                                        2022                2261          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2023                2147          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2024                2183          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2025                2299          0
+Wilaya_9                                                                                             Specialite_13                                                                                        TOUTES ANNEES       8890          1
+Wilaya_9                                                                                             Specialite_23                                                                                        2022                2129          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2023                2040          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2024                2060          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2025                2052          0
+Wilaya_9                                                                                             Specialite_23                                                                                        TOUTES ANNEES       8281          1
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+Wilaya_9                                                                                             Specialite_3                                                                                         2022                3459          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2023                3280          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2024                3303          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2025                3307          0
+Wilaya_9                                                                                             Specialite_3                                                                                         TOUTES ANNEES      13349          1
+Wilaya_9                                                                                             TOUTES SPECIALITES                                                                                   TOUTES ANNEES      42504          3
+alger                                                                                                Specialite_1                                                                                         2022                1538          0
+alger                                                                                                Specialite_1                                                                                         2023                1496          0
+alger                                                                                                Specialite_1                                                                                         2024                1459          0
+alger                                                                                                Specialite_1                                                                                         2025                1444          0
+alger                                                                                                Specialite_1                                                                                         TOUTES ANNEES       5937          1
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+alger                                                                                                Specialite_24                                                                                        2022                2076          0
+alger                                                                                                Specialite_24                                                                                        2023                1992          0
+alger                                                                                                Specialite_24                                                                                        2024                2061          0
+alger                                                                                                Specialite_24                                                                                        2025                1923          0
+alger                                                                                                Specialite_24                                                                                        TOUTES ANNEES       8052          1
+alger                                                                                                Specialite_26                                                                                        2022                2490          0
+alger                                                                                                Specialite_26                                                                                        2023                2380          0
+alger                                                                                                Specialite_26                                                                                        2024                2584          0
+alger                                                                                                Specialite_26                                                                                        2025                2386          0
+alger                                                                                                Specialite_26                                                                                        TOUTES ANNEES       9840          1
+alger                                                                                                Specialite_32                                                                                        2022                2541          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+alger                                                                                                Specialite_32                                                                                        2023                2580          0
+alger                                                                                                Specialite_32                                                                                        2024                2497          0
+alger                                                                                                Specialite_32                                                                                        2025                2519          0
+alger                                                                                                Specialite_32                                                                                        TOUTES ANNEES      10137          1
+alger                                                                                                Specialite_9                                                                                         2022                1460          0
+alger                                                                                                Specialite_9                                                                                         2023                1473          0
+alger                                                                                                Specialite_9                                                                                         2024                1559          0
+alger                                                                                                Specialite_9                                                                                         2025                1498          0
+alger                                                                                                Specialite_9                                                                                         TOUTES ANNEES       5990          1
+alger                                                                                                TOUTES SPECIALITES                                                                                   TOUTES ANNEES      39956          3
+TOUTES WILAYAS                                                                                       TOUTES SPECIALITES                                                                                   TOUTES ANNEES    2175758          7
+
+1,078 rows selected. 
+
+Elapsed: 00:00:02.557

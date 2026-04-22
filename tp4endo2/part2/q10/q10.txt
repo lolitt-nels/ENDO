@@ -1,0 +1,27 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT t.Annee,
+       SUM(f.NBActes)                                                    AS NbActes,
+       AVG(SUM(f.NBActes)) OVER (
+           ORDER BY t.Annee
+           ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+       )                                                                  AS MoyMobile3
+FROM   FSejour  f
+JOIN   DHopital h ON f.IDHopital = h.IDHopital
+JOIN   DTemps   t ON f.CodeTemps = t.CodeTemps
+WHERE  UPPER(h.NomWilaya) = 'ALGER'
+GROUP BY t.Annee
+ORDER BY t.Annee;
+
+Result:
+
+ANNE    NBACTES MOYMOBILE3
+---- ---------- ----------
+2022      10105      10105
+2023       9921      10013
+2024      10160      10062
+2025       9770 9950.33333
+
+Elapsed: 00:00:00.443

@@ -1,0 +1,15 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       s.NomSpecialite,
+       t.Annee,
+       SUM(f.NBActes)                                    AS NbActes,
+       GROUPING_ID(h.NomWilaya, s.NomSpecialite, t.Annee) AS GID
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY ROLLUP(h.NomWilaya, s.NomSpecialite, t.Annee)
+ORDER BY h.NomWilaya, s.NomSpecialite, t.Annee;

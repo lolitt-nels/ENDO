@@ -1,0 +1,189 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       SUM(f.NBActes)                                          AS NbActes,
+       RANK()       OVER (ORDER BY SUM(f.NBActes) DESC)        AS Rang_NonDense,
+       DENSE_RANK() OVER (ORDER BY SUM(f.NBActes) DESC)        AS Rang_Dense
+FROM   FSejour  f
+JOIN   DHopital h ON f.IDHopital = h.IDHopital
+GROUP BY h.NomWilaya
+ORDER BY NbActes DESC;
+
+result :
+alger                                                                                                Specialite_1                                                                                         2025                1444          0
+alger                                                                                                Specialite_1                                                                                         TOUTES ANNEES       5937          1
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+alger                                                                                                Specialite_24                                                                                        2022                2076          0
+alger                                                                                                Specialite_24                                                                                        2023                1992          0
+alger                                                                                                Specialite_24                                                                                        2024                2061          0
+alger                                                                                                Specialite_24                                                                                        2025                1923          0
+alger                                                                                                Specialite_24                                                                                        TOUTES ANNEES       8052          1
+alger                                                                                                Specialite_26                                                                                        2022                2490          0
+alger                                                                                                Specialite_26                                                                                        2023                2380          0
+alger                                                                                                Specialite_26                                                                                        2024                2584          0
+alger                                                                                                Specialite_26                                                                                        2025                2386          0
+alger                                                                                                Specialite_26                                                                                        TOUTES ANNEES       9840          1
+alger                                                                                                Specialite_32                                                                                        2022                2541          0
+
+WILAYA                                                                                               SPECIALITE                                                                                           ANNEE            NBACTES        GID
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------- ---------- ----------
+alger                                                                                                Specialite_32                                                                                        2023                2580          0
+alger                                                                                                Specialite_32                                                                                        2024                2497          0
+alger                                                                                                Specialite_32                                                                                        2025                2519          0
+alger                                                                                                Specialite_32                                                                                        TOUTES ANNEES      10137          1
+alger                                                                                                Specialite_9                                                                                         2022                1460          0
+alger                                                                                                Specialite_9                                                                                         2023                1473          0
+alger                                                                                                Specialite_9                                                                                         2024                1559          0
+alger                                                                                                Specialite_9                                                                                         2025                1498          0
+alger                                                                                                Specialite_9                                                                                         TOUTES ANNEES       5990          1
+alger                                                                                                TOUTES SPECIALITES                                                                                   TOUTES ANNEES      39956          3
+TOUTES WILAYAS                                                                                       TOUTES SPECIALITES                                                                                   TOUTES ANNEES    2175758          7
+
+1,078 rows selected. 
+
+Elapsed: 00:00:02.557
+
+System altered.
+
+Elapsed: 00:00:00.056
+
+System altered.
+
+Elapsed: 00:00:00.320
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_58                                                                                                 66329             1          1
+Wilaya_32                                                                                                 65420             2          2
+Wilaya_17                                                                                                 64737             3          3
+Wilaya_2                                                                                                  60925             4          4
+Wilaya_59                                                                                                 59916             5          5
+Wilaya_6                                                                                                  58948             6          6
+Wilaya_25                                                                                                 56302             7          7
+Wilaya_20                                                                                                 54953             8          8
+Wilaya_30                                                                                                 50384             9          9
+Wilaya_60                                                                                                 49622            10         10
+Wilaya_36                                                                                                 48292            11         11
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_62                                                                                                 46604            12         12
+Wilaya_63                                                                                                 46189            13         13
+Wilaya_46                                                                                                 45680            14         14
+Wilaya_42                                                                                                 45489            15         15
+Wilaya_7                                                                                                  45464            16         16
+Wilaya_24                                                                                                 45017            17         17
+Wilaya_31                                                                                                 43939            18         18
+Wilaya_9                                                                                                  42504            19         19
+Wilaya_67                                                                                                 42253            20         20
+Wilaya_18                                                                                                 41185            21         21
+Wilaya_26                                                                                                 40800            22         22
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_47                                                                                                 40559            23         23
+alger                                                                                                     39956            24         24
+Wilaya_33                                                                                                 37807            25         25
+Wilaya_12                                                                                                 37298            26         26
+Wilaya_23                                                                                                 37040            27         27
+Wilaya_50                                                                                                 36920            28         28
+Wilaya_19                                                                                                 36504            29         29
+Wilaya_53                                                                                                 36400            30         30
+Wilaya_3                                                                                                  34480            31         31
+Wilaya_29                                                                                                 33802            32         32
+Wilaya_22                                                                                                 32536            33         33
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_58                                                                                                 66329             1          1
+Wilaya_32                                                                                                 65420             2          2
+Wilaya_17                                                                                                 64737             3          3
+Wilaya_2                                                                                                  60925             4          4
+Wilaya_59                                                                                                 59916             5          5
+Wilaya_6                                                                                                  58948             6          6
+Wilaya_25                                                                                                 56302             7          7
+Wilaya_20                                                                                                 54953             8          8
+Wilaya_30                                                                                                 50384             9          9
+Wilaya_60                                                                                                 49622            10         10
+Wilaya_36                                                                                                 48292            11         11
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_62                                                                                                 46604            12         12
+Wilaya_63                                                                                                 46189            13         13
+Wilaya_46                                                                                                 45680            14         14
+Wilaya_42                                                                                                 45489            15         15
+Wilaya_7                                                                                                  45464            16         16
+Wilaya_24                                                                                                 45017            17         17
+Wilaya_31                                                                                                 43939            18         18
+Wilaya_9                                                                                                  42504            19         19
+Wilaya_67                                                                                                 42253            20         20
+Wilaya_18                                                                                                 41185            21         21
+Wilaya_26                                                                                                 40800            22         22
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_47                                                                                                 40559            23         23
+alger                                                                                                     39956            24         24
+Wilaya_33                                                                                                 37807            25         25
+Wilaya_12                                                                                                 37298            26         26
+Wilaya_23                                                                                                 37040            27         27
+Wilaya_50                                                                                                 36920            28         28
+Wilaya_19                                                                                                 36504            29         29
+Wilaya_53                                                                                                 36400            30         30
+Wilaya_3                                                                                                  34480            31         31
+Wilaya_29                                                                                                 33802            32         32
+Wilaya_22                                                                                                 32536            33         33
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_38                                                                                                 32533            34         34
+Wilaya_65                                                                                                 31681            35         35
+Wilaya_48                                                                                                 31442            36         36
+Wilaya_52                                                                                                 29745            37         37
+Wilaya_5                                                                                                  28408            38         38
+Wilaya_34                                                                                                 26138            39         39
+Wilaya_39                                                                                                 25887            40         40
+Wilaya_40                                                                                                 25262            41         41
+Wilaya_10                                                                                                 24574            42         42
+Wilaya_61                                                                                                 24520            43         43
+Wilaya_37                                                                                                 24020            44         44
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_56                                                                                                 21675            45         45
+Wilaya_55                                                                                                 21556            46         46
+Wilaya_8                                                                                                  21370            47         47
+Wilaya_4                                                                                                  21049            48         48
+Wilaya_57                                                                                                 19548            49         49
+Wilaya_43                                                                                                 19313            50         50
+Wilaya_15                                                                                                 18946            51         51
+Wilaya_35                                                                                                 16784            52         52
+Wilaya_68                                                                                                 16284            53         53
+Wilaya_44                                                                                                 16154            54         54
+Wilaya_49                                                                                                 15684            55         55
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_27                                                                                                 14881            56         56
+Wilaya_14                                                                                                 14829            57         57
+Wilaya_28                                                                                                 14109            58         58
+Wilaya_21                                                                                                 14090            59         59
+Wilaya_16                                                                                                 13368            60         60
+Wilaya_66                                                                                                 11677            61         61
+Wilaya_64                                                                                                 11616            62         62
+TLEMCEN                                                                                                   11016            63         63
+Wilaya_11                                                                                                  9671            64         64
+Wilaya_45                                                                                                  9549            65         65
+Wilaya_54                                                                                                  8307            66         66
+
+NOMWILAYA                                                                                               NBACTES RANG_NONDENSE RANG_DENSE
+---------------------------------------------------------------------------------------------------- ---------- ------------- ----------
+Wilaya_51                                                                                                  5818            67         67
+
+67 rows selected. 
+
+Elapsed: 00:00:00.516

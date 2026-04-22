@@ -1,0 +1,197 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT t.Annee,
+       s.NomSpecialite,
+       SUM(f.NBActes)                                              AS NbActes,
+       ROUND(
+           SUM(f.NBActes) * 100 /
+           SUM(SUM(f.NBActes)) OVER (PARTITION BY t.Annee)
+       , 2)                                                         AS RatioPct
+FROM   FSejour     f
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY t.Annee, s.NomSpecialite
+ORDER BY t.Annee, NbActes DESC;
+
+Result:
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2022 Specialite_2                                                                                              30308       5.57
+2022 Specialite_6                                                                                              27917       5.13
+2022 Specialite_7                                                                                              25705       4.72
+2022 Specialite_14                                                                                             23827       4.38
+2022 Specialite_4                                                                                              23243       4.27
+2022 Specialite_34                                                                                             22820       4.19
+2022 Specialite_24                                                                                             22532       4.14
+2022 Specialite_15                                                                                             20739       3.81
+2022 Specialite_20                                                                                             20056       3.69
+2022 Specialite_8                                                                                              19648       3.61
+2022 Specialite_19                                                                                             19090       3.51
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2022 Specialite_12                                                                                             18645       3.43
+2022 Specialite_3                                                                                              18579       3.41
+2022 Specialite_17                                                                                             18459       3.39
+2022 Specialite_13                                                                                             18365       3.37
+2022 Specialite_32                                                                                             15365       2.82
+2022 Specialite_26                                                                                             15322       2.82
+2022 Specialite_23                                                                                             15048       2.77
+2022 Specialite_16                                                                                             14406       2.65
+2022 Specialite_28                                                                                             14351       2.64
+2022 Specialite_21                                                                                             14283       2.62
+2022 Specialite_1                                                                                              14263       2.62
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2022 Specialite_29                                                                                             13716       2.52
+2022 Specialite_9                                                                                              13185       2.42
+2022 Specialite_25                                                                                             12883       2.37
+2022 Specialite_10                                                                                             11217       2.06
+2022 Specialite_27                                                                                             10473       1.92
+2022 Specialite_5                                                                                              10412       1.91
+2022 Specialite_11                                                                                              9819        1.8
+2022 Specialite_18                                                                                              9696       1.78
+2022 Specialite_31                                                                                              6915       1.27
+2022 Specialite_30                                                                                              6806       1.25
+2022 Specialite_33                                                                                              4168        .77
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2022 Specialite_22                                                                                              1930        .35
+2023 Specialite_2                                                                                              30373       5.59
+2023 Specialite_6                                                                                              28369       5.22
+2023 Specialite_7                                                                                              25621       4.71
+2023 Specialite_14                                                                                             23864       4.39
+2023 Specialite_4                                                                                              23245       4.27
+2023 Specialite_34                                                                                             22744       4.18
+2023 Specialite_24                                                                                             22297        4.1
+2023 Specialite_15                                                                                             20982       3.86
+2023 Specialite_20                                                                                             20550       3.78
+2023 Specialite_19                                                                                             19288       3.55
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2023 Specialite_8                                                                                              19218       3.53
+2023 Specialite_12                                                                                             18538       3.41
+2023 Specialite_17                                                                                             18229       3.35
+2023 Specialite_3                                                                                              18226       3.35
+2023 Specialite_13                                                                                             17721       3.26
+2023 Specialite_26                                                                                             15683       2.88
+2023 Specialite_32                                                                                             15433       2.84
+2023 Specialite_23                                                                                             14662        2.7
+2023 Specialite_16                                                                                             14431       2.65
+2023 Specialite_29                                                                                             14325       2.63
+2023 Specialite_28                                                                                             14297       2.63
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2023 Specialite_1                                                                                              14159        2.6
+2023 Specialite_21                                                                                             14069       2.59
+2023 Specialite_9                                                                                              13286       2.44
+2023 Specialite_25                                                                                             12690       2.33
+2023 Specialite_10                                                                                             11454       2.11
+2023 Specialite_5                                                                                              10405       1.91
+2023 Specialite_27                                                                                             10382       1.91
+2023 Specialite_18                                                                                             10269       1.89
+2023 Specialite_11                                                                                              9550       1.76
+2023 Specialite_30                                                                                              6690       1.23
+2023 Specialite_31                                                                                              6545        1.2
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2023 Specialite_33                                                                                              4049        .74
+2023 Specialite_22                                                                                              2143        .39
+2024 Specialite_2                                                                                              30773       5.64
+2024 Specialite_6                                                                                              27951       5.12
+2024 Specialite_7                                                                                              26018       4.77
+2024 Specialite_14                                                                                             24060       4.41
+2024 Specialite_4                                                                                              23302       4.27
+2024 Specialite_34                                                                                             22917        4.2
+2024 Specialite_24                                                                                             22798       4.18
+2024 Specialite_15                                                                                             21457       3.93
+2024 Specialite_20                                                                                             20672       3.79
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2024 Specialite_8                                                                                              19606       3.59
+2024 Specialite_19                                                                                             19499       3.57
+2024 Specialite_12                                                                                             18993       3.48
+2024 Specialite_17                                                                                             18701       3.43
+2024 Specialite_3                                                                                              18114       3.32
+2024 Specialite_13                                                                                             18068       3.31
+2024 Specialite_26                                                                                             15499       2.84
+2024 Specialite_32                                                                                             15182       2.78
+2024 Specialite_23                                                                                             14641       2.68
+2024 Specialite_28                                                                                             14310       2.62
+2024 Specialite_16                                                                                             14076       2.58
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2024 Specialite_1                                                                                              13986       2.56
+2024 Specialite_21                                                                                             13914       2.55
+2024 Specialite_29                                                                                             13715       2.51
+2024 Specialite_25                                                                                             13071       2.39
+2024 Specialite_9                                                                                              12939       2.37
+2024 Specialite_10                                                                                             11523       2.11
+2024 Specialite_27                                                                                             10577       1.94
+2024 Specialite_5                                                                                              10182       1.87
+2024 Specialite_11                                                                                              9810        1.8
+2024 Specialite_18                                                                                              9785       1.79
+2024 Specialite_30                                                                                              6949       1.27
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2024 Specialite_31                                                                                              6860       1.26
+2024 Specialite_33                                                                                              3993        .73
+2024 Specialite_22                                                                                              1962        .36
+2025 Specialite_2                                                                                              30414       5.61
+2025 Specialite_6                                                                                              27665       5.11
+2025 Specialite_7                                                                                              25505       4.71
+2025 Specialite_14                                                                                             23972       4.42
+2025 Specialite_4                                                                                              23240       4.29
+2025 Specialite_34                                                                                             22804       4.21
+2025 Specialite_24                                                                                             22415       4.14
+2025 Specialite_15                                                                                             21100       3.89
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2025 Specialite_20                                                                                             20651       3.81
+2025 Specialite_8                                                                                              19425       3.58
+2025 Specialite_19                                                                                             19157       3.54
+2025 Specialite_12                                                                                             18659       3.44
+2025 Specialite_3                                                                                              18354       3.39
+2025 Specialite_17                                                                                             18021       3.33
+2025 Specialite_13                                                                                             17877        3.3
+2025 Specialite_26                                                                                             15298       2.82
+2025 Specialite_32                                                                                             15080       2.78
+2025 Specialite_28                                                                                             14502       2.68
+2025 Specialite_23                                                                                             14490       2.67
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2025 Specialite_16                                                                                             14392       2.66
+2025 Specialite_21                                                                                             14211       2.62
+2025 Specialite_1                                                                                              14033       2.59
+2025 Specialite_29                                                                                             13518       2.49
+2025 Specialite_9                                                                                              13278       2.45
+2025 Specialite_25                                                                                             12884       2.38
+2025 Specialite_10                                                                                             11385        2.1
+2025 Specialite_27                                                                                             10522       1.94
+2025 Specialite_5                                                                                              10206       1.88
+2025 Specialite_11                                                                                              9770        1.8
+2025 Specialite_18                                                                                              9765        1.8
+
+ANNE NOMSPECIALITE                                                                                           NBACTES   RATIOPCT
+---- ---------------------------------------------------------------------------------------------------- ---------- ----------
+2025 Specialite_31                                                                                              6830       1.26
+2025 Specialite_30                                                                                              6651       1.23
+2025 Specialite_33                                                                                              3894        .72
+2025 Specialite_22                                                                                              1909        .35
+
+136 rows selected. 
+
+Elapsed: 00:00:00.798

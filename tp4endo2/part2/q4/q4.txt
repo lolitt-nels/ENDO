@@ -1,0 +1,107 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       s.NomSpecialite,
+       t.Annee,
+       SUM(f.NBActes)          AS NbActes,
+       GROUPING(h.NomWilaya)   AS G_Wilaya,
+       GROUPING(s.NomSpecialite) AS G_Specialite,
+       GROUPING(t.Annee)       AS G_Annee
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY ROLLUP(h.NomWilaya, s.NomSpecialite, t.Annee)
+ORDER BY h.NomWilaya, s.NomSpecialite, t.Annee;
+
+
+REsult :
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+Wilaya_7                                                                                             Specialite_3                                                                                                   10328          0            0          1
+Wilaya_7                                                                                             Specialite_32                                                                                        2022       3691          0            0          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2023       3658          0            0          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2024       3505          0            0          0
+Wilaya_7                                                                                             Specialite_32                                                                                        2025       3404          0            0          0
+Wilaya_7                                                                                             Specialite_32                                                                                                  14258          0            0          1
+Wilaya_7                                                                                                                                                                                                            45464          0            1          1
+Wilaya_8                                                                                             Specialite_16                                                                                        2022       2819          0            0          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2023       2755          0            0          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2024       2675          0            0          0
+Wilaya_8                                                                                             Specialite_16                                                                                        2025       2835          0            0          0
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+Wilaya_8                                                                                             Specialite_16                                                                                                  11084          0            0          1
+Wilaya_8                                                                                             Specialite_33                                                                                        2022       2703          0            0          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2023       2559          0            0          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2024       2528          0            0          0
+Wilaya_8                                                                                             Specialite_33                                                                                        2025       2496          0            0          0
+Wilaya_8                                                                                             Specialite_33                                                                                                  10286          0            0          1
+Wilaya_8                                                                                                                                                                                                            21370          0            1          1
+Wilaya_9                                                                                             Specialite_11                                                                                        2022       2998          0            0          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2023       2928          0            0          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2024       3075          0            0          0
+Wilaya_9                                                                                             Specialite_11                                                                                        2025       2983          0            0          0
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+Wilaya_9                                                                                             Specialite_11                                                                                                  11984          0            0          1
+Wilaya_9                                                                                             Specialite_13                                                                                        2022       2261          0            0          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2023       2147          0            0          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2024       2183          0            0          0
+Wilaya_9                                                                                             Specialite_13                                                                                        2025       2299          0            0          0
+Wilaya_9                                                                                             Specialite_13                                                                                                   8890          0            0          1
+Wilaya_9                                                                                             Specialite_23                                                                                        2022       2129          0            0          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2023       2040          0            0          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2024       2060          0            0          0
+Wilaya_9                                                                                             Specialite_23                                                                                        2025       2052          0            0          0
+Wilaya_9                                                                                             Specialite_23                                                                                                   8281          0            0          1
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+Wilaya_9                                                                                             Specialite_3                                                                                         2022       3459          0            0          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2023       3280          0            0          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2024       3303          0            0          0
+Wilaya_9                                                                                             Specialite_3                                                                                         2025       3307          0            0          0
+Wilaya_9                                                                                             Specialite_3                                                                                                   13349          0            0          1
+Wilaya_9                                                                                                                                                                                                            42504          0            1          1
+alger                                                                                                Specialite_1                                                                                         2022       1538          0            0          0
+alger                                                                                                Specialite_1                                                                                         2023       1496          0            0          0
+alger                                                                                                Specialite_1                                                                                         2024       1459          0            0          0
+alger                                                                                                Specialite_1                                                                                         2025       1444          0            0          0
+alger                                                                                                Specialite_1                                                                                                    5937          0            0          1
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+alger                                                                                                Specialite_24                                                                                        2022       2076          0            0          0
+alger                                                                                                Specialite_24                                                                                        2023       1992          0            0          0
+alger                                                                                                Specialite_24                                                                                        2024       2061          0            0          0
+alger                                                                                                Specialite_24                                                                                        2025       1923          0            0          0
+alger                                                                                                Specialite_24                                                                                                   8052          0            0          1
+alger                                                                                                Specialite_26                                                                                        2022       2490          0            0          0
+alger                                                                                                Specialite_26                                                                                        2023       2380          0            0          0
+alger                                                                                                Specialite_26                                                                                        2024       2584          0            0          0
+alger                                                                                                Specialite_26                                                                                        2025       2386          0            0          0
+alger                                                                                                Specialite_26                                                                                                   9840          0            0          1
+alger                                                                                                Specialite_32                                                                                        2022       2541          0            0          0
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES   G_WILAYA G_SPECIALITE    G_ANNEE
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ---------- ---------- ------------ ----------
+alger                                                                                                Specialite_32                                                                                        2023       2580          0            0          0
+alger                                                                                                Specialite_32                                                                                        2024       2497          0            0          0
+alger                                                                                                Specialite_32                                                                                        2025       2519          0            0          0
+alger                                                                                                Specialite_32                                                                                                  10137          0            0          1
+alger                                                                                                Specialite_9                                                                                         2022       1460          0            0          0
+alger                                                                                                Specialite_9                                                                                         2023       1473          0            0          0
+alger                                                                                                Specialite_9                                                                                         2024       1559          0            0          0
+alger                                                                                                Specialite_9                                                                                         2025       1498          0            0          0
+alger                                                                                                Specialite_9                                                                                                    5990          0            0          1
+alger                                                                                                                                                                                                               39956          0            1          1
+                                                                                                                                                                                                                  2175758          1            1          1
+
+1,078 rows selected. 
+
+Elapsed: 00:00:02.446

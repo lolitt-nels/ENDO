@@ -1,0 +1,118 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       s.NomSpecialite,
+       t.Annee,
+       SUM(f.NBActes) AS NbActes
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY ROLLUP(h.NomWilaya, s.NomSpecialite, t.Annee)
+ORDER BY h.NomWilaya, s.NomSpecialite, t.Annee;
+
+
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+Wilaya_7                                                                                             Specialite_2                                                                                         2025       3587
+Wilaya_7                                                                                             Specialite_2                                                                                                   14150
+Wilaya_7                                                                                             Specialite_27                                                                                        2022       1652
+Wilaya_7                                                                                             Specialite_27                                                                                        2023       1701
+Wilaya_7                                                                                             Specialite_27                                                                                        2024       1690
+Wilaya_7                                                                                             Specialite_27                                                                                        2025       1685
+Wilaya_7                                                                                             Specialite_27                                                                                                   6728
+Wilaya_7                                                                                             Specialite_3                                                                                         2022       2600
+Wilaya_7                                                                                             Specialite_3                                                                                         2023       2501
+Wilaya_7                                                                                             Specialite_3                                                                                         2024       2710
+Wilaya_7                                                                                             Specialite_3                                                                                         2025       2517
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+Wilaya_7                                                                                             Specialite_3                                                                                                   10328
+Wilaya_7                                                                                             Specialite_32                                                                                        2022       3691
+Wilaya_7                                                                                             Specialite_32                                                                                        2023       3658
+Wilaya_7                                                                                             Specialite_32                                                                                        2024       3505
+Wilaya_7                                                                                             Specialite_32                                                                                        2025       3404
+Wilaya_7                                                                                             Specialite_32                                                                                                  14258
+Wilaya_7                                                                                                                                                                                                            45464
+Wilaya_8                                                                                             Specialite_16                                                                                        2022       2819
+Wilaya_8                                                                                             Specialite_16                                                                                        2023       2755
+Wilaya_8                                                                                             Specialite_16                                                                                        2024       2675
+Wilaya_8                                                                                             Specialite_16                                                                                        2025       2835
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+Wilaya_8                                                                                             Specialite_16                                                                                                  11084
+Wilaya_8                                                                                             Specialite_33                                                                                        2022       2703
+Wilaya_8                                                                                             Specialite_33                                                                                        2023       2559
+Wilaya_8                                                                                             Specialite_33                                                                                        2024       2528
+Wilaya_8                                                                                             Specialite_33                                                                                        2025       2496
+Wilaya_8                                                                                             Specialite_33                                                                                                  10286
+Wilaya_8                                                                                                                                                                                                            21370
+Wilaya_9                                                                                             Specialite_11                                                                                        2022       2998
+Wilaya_9                                                                                             Specialite_11                                                                                        2023       2928
+Wilaya_9                                                                                             Specialite_11                                                                                        2024       3075
+Wilaya_9                                                                                             Specialite_11                                                                                        2025       2983
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+Wilaya_9                                                                                             Specialite_11                                                                                                  11984
+Wilaya_9                                                                                             Specialite_13                                                                                        2022       2261
+Wilaya_9                                                                                             Specialite_13                                                                                        2023       2147
+Wilaya_9                                                                                             Specialite_13                                                                                        2024       2183
+Wilaya_9                                                                                             Specialite_13                                                                                        2025       2299
+Wilaya_9                                                                                             Specialite_13                                                                                                   8890
+Wilaya_9                                                                                             Specialite_23                                                                                        2022       2129
+Wilaya_9                                                                                             Specialite_23                                                                                        2023       2040
+Wilaya_9                                                                                             Specialite_23                                                                                        2024       2060
+Wilaya_9                                                                                             Specialite_23                                                                                        2025       2052
+Wilaya_9                                                                                             Specialite_23                                                                                                   8281
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+Wilaya_9                                                                                             Specialite_3                                                                                         2022       3459
+Wilaya_9                                                                                             Specialite_3                                                                                         2023       3280
+Wilaya_9                                                                                             Specialite_3                                                                                         2024       3303
+Wilaya_9                                                                                             Specialite_3                                                                                         2025       3307
+Wilaya_9                                                                                             Specialite_3                                                                                                   13349
+Wilaya_9                                                                                                                                                                                                            42504
+alger                                                                                                Specialite_1                                                                                         2022       1538
+alger                                                                                                Specialite_1                                                                                         2023       1496
+alger                                                                                                Specialite_1                                                                                         2024       1459
+alger                                                                                                Specialite_1                                                                                         2025       1444
+alger                                                                                                Specialite_1                                                                                                    5937
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+alger                                                                                                Specialite_24                                                                                        2022       2076
+alger                                                                                                Specialite_24                                                                                        2023       1992
+alger                                                                                                Specialite_24                                                                                        2024       2061
+alger                                                                                                Specialite_24                                                                                        2025       1923
+alger                                                                                                Specialite_24                                                                                                   8052
+alger                                                                                                Specialite_26                                                                                        2022       2490
+alger                                                                                                Specialite_26                                                                                        2023       2380
+alger                                                                                                Specialite_26                                                                                        2024       2584
+alger                                                                                                Specialite_26                                                                                        2025       2386
+alger                                                                                                Specialite_26                                                                                                   9840
+alger                                                                                                Specialite_32                                                                                        2022       2541
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+alger                                                                                                Specialite_32                                                                                        2023       2580
+alger                                                                                                Specialite_32                                                                                        2024       2497
+alger                                                                                                Specialite_32                                                                                        2025       2519
+alger                                                                                                Specialite_32                                                                                                  10137
+alger                                                                                                Specialite_9                                                                                         2022       1460
+alger                                                                                                Specialite_9                                                                                         2023       1473
+alger                                                                                                Specialite_9                                                                                         2024       1559
+alger                                                                                                Specialite_9                                                                                         2025       1498
+alger                                                                                                Specialite_9                                                                                                    5990
+alger                                                                                                                                                                                                               39956
+                                                                                                                                                                                                                  2175758
+
+1,078 rows selected. 
+
+Elapsed: 00:00:02.921

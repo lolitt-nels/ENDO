@@ -1,0 +1,68 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       s.NomSpecialite,
+       t.Annee,
+       SUM(f.NBActes) AS NbActes
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+JOIN   DTemps      t ON f.CodeTemps    = t.CodeTemps
+GROUP BY CUBE(h.NomWilaya, s.NomSpecialite, t.Annee)
+ORDER BY h.NomWilaya, s.NomSpecialite, t.Annee;
+
+
+result:
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+                                                                                                     Specialite_4                                                                                         2022      23243
+                                                                                                     Specialite_4                                                                                         2023      23245
+                                                                                                     Specialite_4                                                                                         2024      23302
+                                                                                                     Specialite_4                                                                                         2025      23240
+                                                                                                     Specialite_4                                                                                                   93030
+                                                                                                     Specialite_5                                                                                         2022      10412
+                                                                                                     Specialite_5                                                                                         2023      10405
+                                                                                                     Specialite_5                                                                                         2024      10182
+                                                                                                     Specialite_5                                                                                         2025      10206
+                                                                                                     Specialite_5                                                                                                   41205
+                                                                                                     Specialite_6                                                                                         2022      27917
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+                                                                                                     Specialite_6                                                                                         2023      28369
+                                                                                                     Specialite_6                                                                                         2024      27951
+                                                                                                     Specialite_6                                                                                         2025      27665
+                                                                                                     Specialite_6                                                                                                  111902
+                                                                                                     Specialite_7                                                                                         2022      25705
+                                                                                                     Specialite_7                                                                                         2023      25621
+                                                                                                     Specialite_7                                                                                         2024      26018
+                                                                                                     Specialite_7                                                                                         2025      25505
+                                                                                                     Specialite_7                                                                                                  102849
+                                                                                                     Specialite_8                                                                                         2022      19648
+                                                                                                     Specialite_8                                                                                         2023      19218
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+                                                                                                     Specialite_8                                                                                         2024      19606
+                                                                                                     Specialite_8                                                                                         2025      19425
+                                                                                                     Specialite_8                                                                                                   77897
+                                                                                                     Specialite_9                                                                                         2022      13185
+                                                                                                     Specialite_9                                                                                         2023      13286
+                                                                                                     Specialite_9                                                                                         2024      12939
+                                                                                                     Specialite_9                                                                                         2025      13278
+                                                                                                     Specialite_9                                                                                                   52688
+                                                                                                                                                                                                          2022     544191
+                                                                                                                                                                                                          2023     543787
+                                                                                                                                                                                                          2024     545903
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        ANNE    NBACTES
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ---- ----------
+                                                                                                                                                                                                          2025     541877
+                                                                                                                                                                                                                  2175758
+
+1,520 rows selected. 
+
+Elapsed: 00:00:02.419

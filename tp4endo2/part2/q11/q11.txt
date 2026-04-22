@@ -1,0 +1,291 @@
+ALTER SYSTEM FLUSH SHARED_POOL;
+ALTER SYSTEM FLUSH BUFFER_CACHE;
+SET TIMING ON;
+
+SELECT h.NomWilaya,
+       s.NomSpecialite,
+       SUM(f.DureeSejour)                                AS DureeGlobale,
+       SUM(SUM(f.DureeSejour)) OVER (
+           PARTITION BY h.NomWilaya
+           ORDER BY SUM(f.DureeSejour) DESC
+           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       )                                                  AS DureeCumul,
+       ROUND(
+           SUM(SUM(f.DureeSejour)) OVER (
+               PARTITION BY h.NomWilaya
+               ORDER BY SUM(f.DureeSejour) DESC
+               ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+           ) * 100 /
+           SUM(SUM(f.DureeSejour)) OVER (PARTITION BY h.NomWilaya)
+       , 2)                                               AS PctCumul
+FROM   FSejour     f
+JOIN   DHopital    h ON f.IDHopital    = h.IDHopital
+JOIN   DSpecialite s ON f.IDSpecialite = s.IDSpecialite
+GROUP BY h.NomWilaya, s.NomSpecialite
+ORDER BY h.NomWilaya, DureeGlobale DESC;
+
+Result:
+
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+TLEMCEN                                                                                              Specialite_21                                                                                               85551      85551        100
+Wilaya_10                                                                                            Specialite_14                                                                                              106026     106026      50.19
+Wilaya_10                                                                                            Specialite_32                                                                                              105223     211249        100
+Wilaya_11                                                                                            Specialite_16                                                                                               27077      27077        100
+Wilaya_12                                                                                            Specialite_27                                                                                              112241     112241      35.41
+Wilaya_12                                                                                            Specialite_17                                                                                              104148     216389      68.27
+Wilaya_12                                                                                            Specialite_25                                                                                              100594     316983        100
+Wilaya_14                                                                                            Specialite_31                                                                                              103185     103185      70.96
+Wilaya_14                                                                                            Specialite_5                                                                                                42218     145403        100
+Wilaya_15                                                                                            Specialite_1                                                                                                82591      82591       56.9
+Wilaya_15                                                                                            Specialite_30                                                                                               62549     145140        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_16                                                                                            Specialite_7                                                                                                47937      47937        100
+Wilaya_17                                                                                            Specialite_20                                                                                              213597     213597      37.79
+Wilaya_17                                                                                            Specialite_2                                                                                               174213     387810      68.62
+Wilaya_17                                                                                            Specialite_21                                                                                              104231     492041      87.06
+Wilaya_17                                                                                            Specialite_24                                                                                               58091     550132      97.34
+Wilaya_17                                                                                            Specialite_23                                                                                               15028     565160        100
+Wilaya_18                                                                                            Specialite_7                                                                                               166322     166322      44.09
+Wilaya_18                                                                                            Specialite_8                                                                                               118372     284694      75.46
+Wilaya_18                                                                                            Specialite_26                                                                                               92561     377255        100
+Wilaya_19                                                                                            Specialite_24                                                                                              126829     126829       38.2
+Wilaya_19                                                                                            Specialite_10                                                                                              122962     249791      75.23
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_19                                                                                            Specialite_29                                                                                               82245     332036        100
+Wilaya_2                                                                                             Specialite_19                                                                                              145696     145696      26.38
+Wilaya_2                                                                                             Specialite_1                                                                                               136486     282182       51.1
+Wilaya_2                                                                                             Specialite_15                                                                                              134114     416296      75.39
+Wilaya_2                                                                                             Specialite_6                                                                                                81644     497940      90.17
+Wilaya_2                                                                                             Specialite_20                                                                                               54280     552220        100
+Wilaya_20                                                                                            Specialite_7                                                                                               234785     234785      45.97
+Wilaya_20                                                                                            Specialite_1                                                                                                98605     333390      65.28
+Wilaya_20                                                                                            Specialite_3                                                                                                66883     400273      78.37
+Wilaya_20                                                                                            Specialite_10                                                                                               65124     465397      91.13
+Wilaya_20                                                                                            Specialite_14                                                                                               45319     510716        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_21                                                                                            Specialite_9                                                                                                39408      39408      50.17
+Wilaya_21                                                                                            Specialite_28                                                                                               39145      78553        100
+Wilaya_22                                                                                            Specialite_23                                                                                              142951     142951      46.92
+Wilaya_22                                                                                            Specialite_5                                                                                                85420     228371      74.95
+Wilaya_22                                                                                            Specialite_13                                                                                               76311     304682        100
+Wilaya_23                                                                                            Specialite_13                                                                                              156385     156385      46.54
+Wilaya_23                                                                                            Specialite_1                                                                                               135109     291494      86.76
+Wilaya_23                                                                                            Specialite_8                                                                                                44495     335989        100
+Wilaya_24                                                                                            Specialite_16                                                                                              157524     157524      32.17
+Wilaya_24                                                                                            Specialite_3                                                                                               125114     282638      57.72
+Wilaya_24                                                                                            Specialite_26                                                                                              105056     387694      79.18
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_24                                                                                            Specialite_27                                                                                              101955     489649        100
+Wilaya_25                                                                                            Specialite_2                                                                                               282250     282250      50.06
+Wilaya_25                                                                                            Specialite_25                                                                                              153844     436094      77.34
+Wilaya_25                                                                                            Specialite_19                                                                                               86370     522464      92.66
+Wilaya_25                                                                                            Specialite_9                                                                                                41410     563874        100
+Wilaya_26                                                                                            Specialite_6                                                                                               104866     104866      30.74
+Wilaya_26                                                                                            Specialite_21                                                                                               96970     201836      59.16
+Wilaya_26                                                                                            Specialite_8                                                                                                95342     297178      87.11
+Wilaya_26                                                                                            Specialite_24                                                                                               43991     341169        100
+Wilaya_27                                                                                            Specialite_6                                                                                               118067     118067      71.23
+Wilaya_27                                                                                            Specialite_9                                                                                                47688     165755        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_28                                                                                            Specialite_6                                                                                               184822     184822        100
+Wilaya_29                                                                                            Specialite_29                                                                                              173402     173402       59.9
+Wilaya_29                                                                                            Specialite_4                                                                                               116105     289507        100
+Wilaya_3                                                                                             Specialite_12                                                                                              255656     255656      72.05
+Wilaya_3                                                                                             Specialite_28                                                                                               99189     354845        100
+Wilaya_30                                                                                            Specialite_12                                                                                              181367     181367      46.56
+Wilaya_30                                                                                            Specialite_10                                                                                              109217     290584      74.59
+Wilaya_30                                                                                            Specialite_17                                                                                               55824     346408      88.93
+Wilaya_30                                                                                            Specialite_9                                                                                                43142     389550        100
+Wilaya_31                                                                                            Specialite_28                                                                                              134536     134536      36.07
+Wilaya_31                                                                                            Specialite_19                                                                                               90516     225052      60.33
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_31                                                                                            Specialite_17                                                                                               82881     307933      82.55
+Wilaya_31                                                                                            Specialite_14                                                                                               65097     373030        100
+Wilaya_32                                                                                            Specialite_10                                                                                              173326     173326       33.2
+Wilaya_32                                                                                            Specialite_23                                                                                               82813     256139      49.06
+Wilaya_32                                                                                            Specialite_17                                                                                               76618     332757      63.74
+Wilaya_32                                                                                            Specialite_28                                                                                               64831     397588      76.16
+Wilaya_32                                                                                            Specialite_15                                                                                               59921     457509      87.63
+Wilaya_32                                                                                            Specialite_31                                                                                               49430     506939       97.1
+Wilaya_32                                                                                            Specialite_7                                                                                                15135     522074        100
+Wilaya_33                                                                                            Specialite_4                                                                                               105064     105064      40.07
+Wilaya_33                                                                                            Specialite_32                                                                                               92295     197359      75.28
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_33                                                                                            Specialite_15                                                                                               64813     262172        100
+Wilaya_34                                                                                            Specialite_11                                                                                               86557      86557      40.48
+Wilaya_34                                                                                            Specialite_28                                                                                               65441     151998      71.08
+Wilaya_34                                                                                            Specialite_29                                                                                               61838     213836        100
+Wilaya_35                                                                                            Specialite_4                                                                                               208039     208039        100
+Wilaya_36                                                                                            Specialite_34                                                                                              131213     131213      26.93
+Wilaya_36                                                                                            Specialite_25                                                                                              111747     242960      49.86
+Wilaya_36                                                                                            Specialite_7                                                                                                90453     333413      68.42
+Wilaya_36                                                                                            Specialite_9                                                                                                87188     420601      86.31
+Wilaya_36                                                                                            Specialite_26                                                                                               66718     487319        100
+Wilaya_37                                                                                            Specialite_29                                                                                              160034     160034      61.88
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_37                                                                                            Specialite_26                                                                                               98595     258629        100
+Wilaya_38                                                                                            Specialite_24                                                                                              128725     128725      44.17
+Wilaya_38                                                                                            Specialite_15                                                                                               89486     218211      74.88
+Wilaya_38                                                                                            Specialite_18                                                                                               73210     291421        100
+Wilaya_39                                                                                            Specialite_34                                                                                               88987      88987      38.77
+Wilaya_39                                                                                            Specialite_14                                                                                               77275     166262      72.44
+Wilaya_39                                                                                            Specialite_8                                                                                                63266     229528        100
+Wilaya_4                                                                                             Specialite_3                                                                                               103977     103977      51.29
+Wilaya_4                                                                                             Specialite_31                                                                                               98742     202719        100
+Wilaya_40                                                                                            Specialite_6                                                                                               150641     150641      54.92
+Wilaya_40                                                                                            Specialite_4                                                                                               123631     274272        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_42                                                                                            Specialite_2                                                                                               153929     153929      32.46
+Wilaya_42                                                                                            Specialite_14                                                                                              133682     287611      60.66
+Wilaya_42                                                                                            Specialite_7                                                                                                82251     369862         78
+Wilaya_42                                                                                            Specialite_21                                                                                               77369     447231      94.32
+Wilaya_42                                                                                            Specialite_12                                                                                               26930     474161        100
+Wilaya_43                                                                                            Specialite_9                                                                                                64420      64420      41.58
+Wilaya_43                                                                                            Specialite_7                                                                                                58789     123209      79.53
+Wilaya_43                                                                                            Specialite_15                                                                                               31715     154924        100
+Wilaya_44                                                                                            Specialite_13                                                                                              103903     103903      70.13
+Wilaya_44                                                                                            Specialite_4                                                                                                44251     148154        100
+Wilaya_45                                                                                            Specialite_25                                                                                               48517      48517        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_46                                                                                            Specialite_24                                                                                              146981     146981      42.22
+Wilaya_46                                                                                            Specialite_6                                                                                                93963     240944      69.21
+Wilaya_46                                                                                            Specialite_13                                                                                               54846     295790      84.97
+Wilaya_46                                                                                            Specialite_11                                                                                               26424     322214      92.56
+Wilaya_46                                                                                            Specialite_12                                                                                               25909     348123        100
+Wilaya_47                                                                                            Specialite_17                                                                                              148118     148118      39.67
+Wilaya_47                                                                                            Specialite_18                                                                                              114766     262884       70.4
+Wilaya_47                                                                                            Specialite_20                                                                                               69398     332282      88.98
+Wilaya_47                                                                                            Specialite_7                                                                                                41135     373417        100
+Wilaya_48                                                                                            Specialite_9                                                                                                66077      66077      34.48
+Wilaya_48                                                                                            Specialite_34                                                                                               63046     129123      67.38
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_48                                                                                            Specialite_3                                                                                                62502     191625        100
+Wilaya_49                                                                                            Specialite_15                                                                                               62843      62843      65.62
+Wilaya_49                                                                                            Specialite_8                                                                                                32920      95763        100
+Wilaya_5                                                                                             Specialite_4                                                                                               121661     121661      47.78
+Wilaya_5                                                                                             Specialite_23                                                                                               79496     201157         79
+Wilaya_5                                                                                             Specialite_21                                                                                               53474     254631        100
+Wilaya_50                                                                                            Specialite_27                                                                                               83769      83769      26.84
+Wilaya_50                                                                                            Specialite_11                                                                                               80447     164216      52.62
+Wilaya_50                                                                                            Specialite_30                                                                                               75614     239830      76.85
+Wilaya_50                                                                                            Specialite_4                                                                                                72259     312089        100
+Wilaya_51                                                                                            Specialite_33                                                                                               78843      78843        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_52                                                                                            Specialite_34                                                                                               95495      95495      41.13
+Wilaya_52                                                                                            Specialite_5                                                                                                81901     177396       76.4
+Wilaya_52                                                                                            Specialite_14                                                                                               54803     232199        100
+Wilaya_53                                                                                            Specialite_19                                                                                              143549     143549      55.84
+Wilaya_53                                                                                            Specialite_6                                                                                               113509     257058        100
+Wilaya_54                                                                                            Specialite_6                                                                                                78937      78937        100
+Wilaya_55                                                                                            Specialite_5                                                                                                98456      98456      48.96
+Wilaya_55                                                                                            Specialite_21                                                                                               62878     161334      80.23
+Wilaya_55                                                                                            Specialite_8                                                                                                39744     201078        100
+Wilaya_56                                                                                            Specialite_8                                                                                               142328     142328      74.22
+Wilaya_56                                                                                            Specialite_3                                                                                                49432     191760        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_57                                                                                            Specialite_24                                                                                              160798     160798      63.06
+Wilaya_57                                                                                            Specialite_34                                                                                               94200     254998        100
+Wilaya_58                                                                                            Specialite_18                                                                                              165757     165757      25.89
+Wilaya_58                                                                                            Specialite_20                                                                                              143610     309367      48.32
+Wilaya_58                                                                                            Specialite_34                                                                                              131280     440647      68.83
+Wilaya_58                                                                                            Specialite_15                                                                                              126817     567464      88.63
+Wilaya_58                                                                                            Specialite_7                                                                                                72776     640240        100
+Wilaya_59                                                                                            Specialite_2                                                                                               155715     155715      26.28
+Wilaya_59                                                                                            Specialite_16                                                                                              145823     301538       50.9
+Wilaya_59                                                                                            Specialite_34                                                                                              127913     429451      72.49
+Wilaya_59                                                                                            Specialite_13                                                                                               85137     514588      86.86
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_59                                                                                            Specialite_6                                                                                                77877     592465        100
+Wilaya_6                                                                                             Specialite_14                                                                                              206302     206302      36.94
+Wilaya_6                                                                                             Specialite_19                                                                                              130316     336618      60.27
+Wilaya_6                                                                                             Specialite_12                                                                                              128731     465349      83.32
+Wilaya_6                                                                                             Specialite_24                                                                                               93180     558529        100
+Wilaya_60                                                                                            Specialite_20                                                                                              144125     144125      29.69
+Wilaya_60                                                                                            Specialite_2                                                                                               120075     264200      54.42
+Wilaya_60                                                                                            Specialite_15                                                                                              109637     373837         77
+Wilaya_60                                                                                            Specialite_7                                                                                                71534     445371      91.73
+Wilaya_60                                                                                            Specialite_34                                                                                               40128     485499        100
+Wilaya_61                                                                                            Specialite_27                                                                                               75176      75176      46.74
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_61                                                                                            Specialite_19                                                                                               67565     142741      88.75
+Wilaya_61                                                                                            Specialite_34                                                                                               18101     160842        100
+Wilaya_62                                                                                            Specialite_16                                                                                               88119      88119      26.43
+Wilaya_62                                                                                            Specialite_28                                                                                               76799     164918      49.46
+Wilaya_62                                                                                            Specialite_8                                                                                                72203     237121      71.11
+Wilaya_62                                                                                            Specialite_22                                                                                               63016     300137      90.01
+Wilaya_62                                                                                            Specialite_20                                                                                               33329     333466        100
+Wilaya_63                                                                                            Specialite_32                                                                                              135493     135493      33.66
+Wilaya_63                                                                                            Specialite_12                                                                                              107092     242585      60.27
+Wilaya_63                                                                                            Specialite_2                                                                                                84716     327301      81.32
+Wilaya_63                                                                                            Specialite_25                                                                                               75182     402483        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_64                                                                                            Specialite_23                                                                                               90022      90022        100
+Wilaya_65                                                                                            Specialite_17                                                                                               92147      92147      35.38
+Wilaya_65                                                                                            Specialite_29                                                                                               86336     178483      68.53
+Wilaya_65                                                                                            Specialite_5                                                                                                81951     260434        100
+Wilaya_66                                                                                            Specialite_13                                                                                              127165     127165        100
+Wilaya_67                                                                                            Specialite_20                                                                                              114920     114920      39.49
+Wilaya_67                                                                                            Specialite_14                                                                                              114300     229220      78.78
+Wilaya_67                                                                                            Specialite_26                                                                                               37573     266793      91.69
+Wilaya_67                                                                                            Specialite_30                                                                                               24184     290977        100
+Wilaya_68                                                                                            Specialite_2                                                                                                66460      66460      53.76
+Wilaya_68                                                                                            Specialite_19                                                                                               57167     123627        100
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+Wilaya_7                                                                                             Specialite_2                                                                                               111294     111294      40.22
+Wilaya_7                                                                                             Specialite_32                                                                                               68141     179435      64.85
+Wilaya_7                                                                                             Specialite_27                                                                                               63153     242588      87.68
+Wilaya_7                                                                                             Specialite_3                                                                                                34102     276690        100
+Wilaya_8                                                                                             Specialite_16                                                                                               95229      95229      76.89
+Wilaya_8                                                                                             Specialite_33                                                                                               28623     123852        100
+Wilaya_9                                                                                             Specialite_3                                                                                               158046     158046      51.28
+Wilaya_9                                                                                             Specialite_11                                                                                               83954     242000      78.52
+Wilaya_9                                                                                             Specialite_13                                                                                               43251     285251      92.55
+Wilaya_9                                                                                             Specialite_23                                                                                               22958     308209        100
+alger                                                                                                Specialite_24                                                                                              106113     106113      27.77
+
+NOMWILAYA                                                                                            NOMSPECIALITE                                                                                        DUREEGLOBALE DUREECUMUL   PCTCUMUL
+---------------------------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------- ------------ ---------- ----------
+alger                                                                                                Specialite_32                                                                                              100520     206633      54.08
+alger                                                                                                Specialite_9                                                                                                63391     270024      70.66
+alger                                                                                                Specialite_1                                                                                                56471     326495      85.44
+alger                                                                                                Specialite_26                                                                                               55627     382122        100
+
+202 rows selected. 
+
+Elapsed: 00:00:00.823
